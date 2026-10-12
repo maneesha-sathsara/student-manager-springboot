@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>Edit Student</title>
+ <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+ <h1>Student Registration System</h1>
+ <p>Edit student details</p>
+</header>
+<main class="container narrow">
+ <section class="card">
+ <h2>Edit Student #<span th:text="${student.id}"></span></h2>
+ <form th:action="@{/students/{id}/update(id=${student.id})}" th:object="${student}"
+method="post" novalidate>
+ <div th:replace="~{fragments :: fields}"></div>
+ <button type="submit" class="btn primary">Update Student</button>
+ <a th:href="@{/students}" class="btn">Cancel</a>
+ </form>
+ </section>
+</main>
+<footer class="footer">COSC 32133 / BECS 32263 &middot; Lab Sheet 04</footer>
+</body>
+</html>

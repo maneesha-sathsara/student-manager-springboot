@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>Student Registration System</title>
+ <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+ <h1>Student Registration System</h1>
+ <p>Spring Boot &middot; Thymeleaf &middot; H2 Database</p>
+</header>
+<main class="container">
+ <div class="alert success" th:if="${success}" th:text="${success}"></div>
+ <div class="alert danger" th:if="${error}" th:text="${error}"></div>
+ <!-- ===== CREATE: form ===== -->
+ <section class="card">
+ <h2>Register a Student</h2>
+ <form th:action="@{/students}" th:object="${student}" method="post" novalidate>
+<div th:replace="~{fragments :: fields}"></div>
+ <button type="submit" class="btn primary">Save Student</button>
+ </form>
+ </section>
+ <!-- ===== READ: table ===== -->
+ <section class="card">
+ <h2>Registered Students <span class="badge"
+th:text="${#lists.size(students)}">0</span></h2>
+ <div class="table-wrap">
+ <table>
+ <thead>
+ <tr>
+ <th>ID</th><th>Full Name</th><th>Email</th><th>Phone</th>
+ <th>Course</th><th>Age</th><th>Actions</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr th:if="${#lists.isEmpty(students)}">
+ <td colspan="7" class="empty">No students registered yet.</td>
+ </tr>
+ <tr th:each="s : ${students}">
+ <td th:text="${s.id}"></td>
+ <td th:text="${s.fullName}"></td>
+ <td th:text="${s.email}"></td>
+ <td th:text="${s.phone}"></td>
+ <td th:text="${s.course}"></td>
+ <td th:text="${s.age}"></td>
+ <td class="actions">
+ <!-- UPDATE -->
+ <a class="btn small" th:href="@{/students/{id}/edit(id=${s.id})}">Edit</a>
+ <!-- DELETE -->
+ <form th:action="@{/students/{id}/delete(id=${s.id})}" method="post"
+ onsubmit="return confirm('Delete this student?');">
+ <button type="submit" class="btn small danger">Delete</button>
+ </form>
+ </td>
+ </tr>
+ </tbody>
+ </table>
+ </div>
+ </section>
+</main>
+<footer class="footer">COSC 32133 / BECS 32263 &middot; Lab Sheet 04</footer>
+</body>
+</html>
